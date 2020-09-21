@@ -16,7 +16,7 @@ var sql_func=new sql_interface();
 
 //登录
 router.post('/login',function(req,res,fields) {
-  console.log(req)
+  console.log(req.body)
   let stuNum=req.body.stuNum;
   let password=req.body.password;
   let condition={'stuNum':stuNum,'password':password}

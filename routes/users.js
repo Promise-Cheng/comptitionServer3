@@ -484,15 +484,21 @@ router.get('/myComp',function (req,res,next) {
   }
   let status=parseInt(req.query.status)
   let stuId=req.session.stuId
+  console.log(stuId)
   if(!stuId&&stuId!=0){
     res.status(500).send()
     return
   }
-
+  let data=null
+  let Sum=null
   get_func.myComps(stuId,status).then(results=>{
+    data=results
+    return get_func.myCompsSum(stuId,status)
+  }).then(sum =>{
+    Sum=sum
     res.status(200).send({
       result:'success',
-      data:results
+      data,Sum
     })
   }).catch(err=>{
     console.log(err)

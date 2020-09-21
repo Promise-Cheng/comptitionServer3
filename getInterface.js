@@ -81,7 +81,7 @@ class getInterface {
     }
     get_myAllComp(stuId){
         return new Promise((resolve, reject) => {
-            let sql=' SELECT st.teamId,c.compName,t.teamName,s.CompStateName,tc.IsPass,cc.CompName as TypeName,c.CompId '
+            let sql=' SELECT st.teamId,c.compName,t.teamName,s.CompStateName,s.compStateID,tc.IsPass,cc.CompName as TypeName,c.CompId '
             +' FROM stu_team st '
             +' INNER JOIN teamcompetion tc '
             +' ON st.teamId=tc.teamId '
@@ -94,6 +94,7 @@ class getInterface {
             +' INNER JOIN compcode cc '
             +' ON c.CompTypeid=cc.CompTypeid '
             +' WHERE st.stuId=?  '
+            + 'ORDER BY compStateID'
             let params=[stuId]
             mysql.query(sql,params,function (err,rows) {
                 err&&reject(rows)
@@ -218,7 +219,30 @@ class getInterface {
 
         }
     }
-
+    myCompsSum(stuId,status){
+        return this.get_myCompsSum(stuId);
+    }
+    get_myCompsSum(stuId){
+        return new Promise((resolve, reject) => {
+            let sql='SELECT COUNT(*) as Sum'
+                +' FROM stu_team st '
+                +' INNER JOIN teamcompetion tc '
+                +' ON st.teamId=tc.teamId '
+                +' INNER JOIN team t '
+                +' ON tc.teamId=t.teamId '
+                +' INNER JOIN competition c '
+                +' ON tc.CompId=c.CompId '
+                +' INNER JOIN compstatus s '
+                +' ON c.compStateID=s.compStateID '
+                +' INNER JOIN compcode cc '
+                +' ON c.CompTypeid=cc.CompTypeid '
+                +' WHERE st.stuId= ' + stuId;
+            mysql.query(sql,null,function (err,rows) {
+                err&&reject(err)
+                resolve(rows[0].Sum)
+            })
+        })
+    }
     get_CompbyState(compStateID){
         return new Promise((resolve, reject) => {
             let akeys=['CompId','compName','teacher','compStateID']
@@ -546,7 +570,8 @@ class getInterface {
     }
     get_AllLatestComp(limit){
         return new Promise((resolve, reject) => {
-            let sql=' SELECT  c.CompId,c.compName,c.compIntro,c.obStartTIme,c.obEndTime,s.CompStateName,t.CompName as CompTypeName '+
+            let sql=' SELECT  c.CompId,c.compName,c.compIntro,c.obStartTIme,c.obEndTime,s.CompStateName,' +
+                's.compStateID as compStateId,t.CompName as CompTypeName '+
                 ' From competition c INNER JOIN compcode t '+
                 ' ON c.CompTypeid=t.CompTypeid '+
                 ' INNER JOIN compstatus s'+

@@ -51,6 +51,7 @@ router.get("/latest",function(req,res){
 router.get('/show',function (req,res) {
     //查询数据：竞赛名称，指导老师，竞赛状态
     //查询条件，compstatusID
+    console.log(req.query)
     let page=req.query.page||1
     let size=req.query.size||5
     page=parseInt(page)
