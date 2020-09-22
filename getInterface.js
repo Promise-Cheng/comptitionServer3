@@ -702,7 +702,7 @@ class getInterface {
     }
     teams(limit){
         return new Promise((resolve, reject) => {
-            let sql=' SELECT  t.teamId,t.teamName,s.stuName,s.stuNum '+
+            let sql=' SELECT  t.teamId,t.teamName,t.teamIntro,s.stuName,s.stuNum '+
                 ' From team t INNER JOIN student s '+
                 ' ON t.teamLeader=s.stuId'+
                 " WHERE t.teamName!=s.stuName && t.teamIntro !='个人' "+

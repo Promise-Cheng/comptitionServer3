@@ -46,7 +46,8 @@ router.get('/Search',function (req,res) {
     }
     let teamName='%'+content+'%'
     let stuName='%'+content+'%'
-    let sql="SELECT a.teamId,a.teamName,b.stuName,b.stuNum FROM team a INNER JOIN student b ON a.teamLeader=b.stuId WHERE a.teamName LIKE ? OR b.stuName LIKE ?"
+    let sql="SELECT a.teamId,a.teamName,a.teamIntro,b.stuName,b.stuNum " +
+        "FROM team a INNER JOIN student b ON a.teamLeader=b.stuId WHERE a.teamName LIKE ? OR b.stuName LIKE ?"
     let params=[teamName,stuName]
     mysql.query(sql,params,function (err,rows) {
         if(err){

@@ -105,7 +105,7 @@ router.get('/Search',function (req,res) {
     let compName='%'+content+'%'
     let teacher='%'+content+'%'
     let TypeName=content
-    let sql='SELECT a.CompId,a.compName,a.teacher,b.CompStateName,c.CompName '
+    let sql='SELECT a.CompId,a.compName,a.teacher,b.CompStateName,b.compStateID,c.CompName as TypeName '
         +' FROM competition a INNER JOIN compstatus b '
         +' ON a.compStateID=b.compStateID  '
         +'INNER JOIN  compcode c '
