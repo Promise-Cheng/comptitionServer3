@@ -489,7 +489,7 @@ class getInterface {
     * */
     get_AllComp(limit){
         return new Promise((resolve, reject) => {
-            let sql=' SELECT  c.CompId,c.compName,s.CompStateName,t.CompName as CompTypeName '+
+            let sql=' SELECT  c.CompId,c.compName,s.CompStateName,s.compStateID,t.CompName as TypeName '+
                 ' From competition c INNER JOIN compcode t '+
                 ' ON c.CompTypeid=t.CompTypeid '+
                 ' INNER JOIN compstatus s'+
