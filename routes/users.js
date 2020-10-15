@@ -306,6 +306,8 @@ router.post('/manageApply',function (req,res) {
 /*显示我创建的团队（我是队长）*/
 
 router.get('/myteams',function (req,res,next) {
+  console.log(req.session)
+  console.log(req.session.stuId)
   let stuId=req.session.stuId
   let teams=null
   if(!stuId&&stuId!=0){

@@ -13,7 +13,9 @@ var CompetitionsRouter = require('./routes/Competitions');
 var teacherRouter = require('./routes/teacher');
 var app = express();
 app.all('*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:8080");//项目上线后改成页面的地址
+
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  // res.header("Access-Control-Allow-Origin", "http://localhost");//项目上线后改成页面的地址  http://localhost:8080
   res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
   res.header('Access-Control-Allow-Credentials',true);
