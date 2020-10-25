@@ -4,12 +4,33 @@ var sql_func=new sql_interface();
 var moment=require('moment')
 class teacherInterface{
     constructor(){}
+    /**获取竞赛下参与队伍数量 */
+    get_TeamSumByCompId(CompId){
+        return new Promise((resolve,reject)=>{
+            let sql="SELECT COUNT(*) as teamSum FROM teamcompetion tc WHERE tc.CompId=? AND tc.IsPass=1"
+            let params=[CompId]
+            mysql.query(sql,params,function (err,rows) {
+                err&&reject(err)
+                // rows=rows.filter((item)=>{
+                //     return item.questionId!==null
+                // })
+                resolve(rows[0].teamSum)
+            })
+        })
+        
+    }
     /*获取竞赛下的题目列表*/
     get_Topics(CompId,keys){
         return new Promise((resolve, reject) => {
-            let sql=sql_func.query_c('question',keys,{CompId})
-            mysql.query(sql[0],sql[1],function (err,rows) {
+
+            let sql="SELECT q.questionId,q.questionName,q.questionIntro,COUNT(w.workId) as subWorkSum,COUNT(DISTINCT(tc.teamCompId)) subTeamSum FROM question q LEFT JOIN works w on q.questionId=w.question LEFT JOIN teamCompetion tc on w.teamCompId=tc.teamCompId WHERE q.CompId=? group by q.questionId"
+            // let sql=sql_func.query_c('question',keys,{CompId})
+            let params=[CompId]
+            mysql.query(sql,params,function (err,rows) {
                 err&&reject(err)
+                // rows=rows.filter((item)=>{
+                //     return item.questionId!==null
+                // })
                 resolve(rows)
             })
 
@@ -41,6 +62,9 @@ class teacherInterface{
                 let realName=rows[0].fileName.split(';')     //实际名称，不带后缀
                 let files={}       //文件列表： fileName:filePath 这里的path只多了类型后缀
                 for(let i in savedPath){
+                    if(!savedPath[i]||!realName[i]){
+                        continue
+                    }
                     files[realName[i]]=savedPath[i]
                 }
                 rows[0]['files']=files
@@ -181,6 +205,24 @@ class teacherInterface{
                 return
             }
             compStateID=compStateID+1
+            let data={compStateID}
+            let condition={CompId}
+            let sql=sql_func.update('competition',data,condition)
+            mysql.query(sql[0],sql[1],function (err,rows) {
+                err&&reject(err)
+                resolve(rows)
+            })
+        })
+    }
+    /**递减更新竞赛状态 */
+    update_CompStateMinus(CompId,compStateID){
+        return new Promise((resolve, reject) => {
+            if(compStateID<=0||compStateID>=6)
+            {
+                reject(1)
+                return
+            }
+            compStateID=compStateID-1
             let data={compStateID}
             let condition={CompId}
             let sql=sql_func.update('competition',data,condition)

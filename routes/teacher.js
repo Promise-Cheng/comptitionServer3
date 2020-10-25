@@ -6,6 +6,7 @@ var teacherInterface=require('../teacherInterface')
 var tc=new teacherInterface()
 var fs=require('fs')
 var moment=require('moment')
+var fileConfig=require("../fileConfig")
 /*登录*/
 router.post('/login',function (req,res) {
         let teaId=req.body.teaId
@@ -555,6 +556,32 @@ router.post('/ChangeCompState',function (req,res) {
         }
     })
 })
+/*递减竞赛状态*/
+router.post('/ChangeCompStateMinus',function (req,res) {
+    let compStateID=parseInt(req.body.compStateID)
+    let CompId=req.body.CompId
+    if(compStateID===undefined||CompId===undefined){
+        res.status(500).send()
+        return
+    }
+    tc.update_CompStateMinus(CompId,compStateID).then(results=>{
+        res.status(200).send({
+            result:'success'
+        })
+    }).catch(err=>{
+        switch (err) {
+            case 1:
+                res.status(200).send({
+                    result:'error'
+                })
+                break;
+            default:
+                console.log(err)
+                res.status(500).send()
+
+        }
+    })
+})
 
 router.post('/createTopic',(req,res)=>{
 
@@ -626,12 +653,17 @@ router.get('/Topics',function (req,res) {
         return
     }
     let keys=['questionId','questionName','questionNum']
+    let teamSum=0;
 
-    tc.get_Topics(CompId,keys).then(results=>{
+    tc.get_TeamSumByCompId(CompId).then(sum=>{
+        teamSum=sum;
+        return tc.get_Topics(CompId,keys)
+    }).then(results=>{
         console.log(results)
         res.status(200).send({
             result:'success',
-            data:results
+            data:results,
+            teamSum
         })
     }).catch(err=>{
         console.log(err)
@@ -656,13 +688,15 @@ router.get('/TopicDetail',function (req,res) {
 
 router.get('/downloadfile',function (req,res) {
     let savedPath=req.query.savedPath
-    let basePath='./uploads/'
-    let realPath=basePath+savedPath
+    let realName=req.query.realName;
+    // let basePath='./uploads/'
+    let realPath=fileConfig.basePath+savedPath
+    console.log(realPath)
     var size = fs.statSync(realPath).size;
     var f = fs.createReadStream(realPath);
     res.writeHead(200, {
-        'Content-Type': 'application/force-download',
-        'Content-Disposition': 'attachment; filename=' + savedPath,
+        'Content-Type': 'application/octet-stream',
+        'Content-Disposition': 'attachment; filename=' + realName,
         'Content-Length': size
     });
     f.pipe(res);
