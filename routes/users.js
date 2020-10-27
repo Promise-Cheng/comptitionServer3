@@ -1,14 +1,19 @@
 var express = require('express');
 var router = express.Router();
 var mysql=require('../database')
-
+const fs=require('fs')
+// var multiparty = require('multiparty');
+const formidable = require('formidable');
+var fileConfig=require("../fileConfig")
+// var form = new multiparty.Form({ uploadDir:fileConfig.basePath});
 var sql_interface=require('../myInterface')
 var sql_func=new sql_interface();
 var get_interface=require('../getInterface')
 var get_func=new get_interface()
 var up_interface=require('../updateInterface')
 var up=new up_interface()
-var insert_interface=require('../insertInterface')
+var insert_interface=require('../insertInterface');
+const { reject } = require('async');
 var ins=new insert_interface()
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -529,6 +534,38 @@ router.get('/showTopic',function (req,res) {
 
   })
 })
+
+/*题目列表*/
+router.get('/showMyTopic',async (req,res)=>{
+  let CompId=req.query.CompId
+  let stuId=req.session.stuId
+
+  try{
+    let rows=await get_func.get_myTopics(stuId,CompId)
+    res.status(200).send({
+      result:'success',
+      data:rows
+    })
+  }catch(err){
+    console.log(err)
+    res.status(500).send();
+  }
+  // let keys=['questionId','questionNum','questionName']
+  // let condition={CompId}
+  // let sql=sql_func.query_c('question',keys,condition)
+  // mysql.query(sql[0],sql[1],function (err,rows) {
+  //   if(err){
+  //     res.status(500).send()
+  //     return
+  //   }
+
+  //   res.status(200).send({
+  //     result:'success',
+  //     data:rows
+  //   })
+
+  // })
+})
 /*题目详情*/
 router.get('/showTopic/detail',function (req,res) {
   let questionId=req.query.questionId
@@ -625,5 +662,55 @@ router.post('/quit_team',function (req,res) {
         res.status(500).send()
     })
 
+})
+router.post("/uploadWorks",(req,res)=>{
+  const form = formidable({ multiples: true,uploadDir:fileConfig.basePath });
+ 
+    form.parse(req, async(err, fields, files) => {
+      try{
+      if(err){
+        throw err;
+      }
+      console.log(fields);
+      if(!req.session.stuId||!fields.teamCompId||!fields.workName||!fields.question){
+        throw '参数错误'
+      }
+      console.log(files)
+      let tasks=[];
+      let fileDescArray=[];
+      let fileNameArray=[];
+      files['file'].forEach((item)=>{
+        let p=new Promise((resolve,reject)=>{
+          fs.rename(item.path,item.path+item.name,(err)=>{
+            fileDescArray.push(item.path+item.name);
+            fileNameArray.push(item.name)
+            err&&reject(err)
+            resolve();
+          })
+        })
+        tasks.push(p)
+      })
+        let submitId=req.session.stuId;
+        
+        let filePath=fileDescArray.join(';');
+        let fileName=fileNameArray.join(';');
+        let teamCompId=fields.teamCompId;
+        let workName=fields.workName;
+        let question=fields.question;
+        let submitTime=new Date();
+        let introduction=fields.introduction;
+        let fileTasks=Promise.all(tasks);
+        let data={submitId,filePath,fileName,teamCompId,workName,question,submitTime,introduction}
+        let rows=await ins.work(data);
+        console.log(rows);
+        res.status(200).send({
+          status:'success',
+          data:rows
+        })
+      }catch(err){
+        console.log(err)
+        res.status(500).send();
+      }
+    });
 })
 module.exports = router;

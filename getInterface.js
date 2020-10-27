@@ -9,7 +9,19 @@ var sql_func = new sql_interface();
 class getInterface {
     constructor() {
     }
-
+    get_myTopics(stuId,CompId){
+        return new Promise((resolve,reject)=>{
+            let sql='SELECT q.questionId,q.questionName,q.questionNum,tc.teamCompId,COUNT(w.workId) as subWorkSum FROM question q INNER JOIN teamcompetion tc ON q.CompId=tc.CompId '
+            +' INNER JOIN stu_team st ON tc.teamId=st.teamId LEFT JOIN works w ON w.question=q.questionId WHERE st.stuId=? AND q.CompId=?'
+            +' GROUP BY q.questionId'
+            let params=[stuId,CompId];
+            mysql.query(sql, params, function (err, rows) {
+                err && reject(err)
+               // console.log(rows)
+                resolve(rows)
+            })
+        })
+    }
     /*获取系统使用人数*/
     get_userSum() {
         return new Promise((resolve, reject) => {

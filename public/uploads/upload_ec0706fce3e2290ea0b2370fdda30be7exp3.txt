@@ -1,0 +1,52 @@
+1.
+SELECT name, TIMESTAMPDIFF(year,birthdate,NOW())  FROM moviestar;
+
+2.
+SELECT COUNT(*) as  studionum FROM studio;
+
+3.
+SELECT COUNT(*) as  mstarnum  FROM moviestar WHERE gender='F';
+4.
+SELECT COUNT(*) as  mstarnum  FROM moviestar WHERE gender='M';
+5.
+SELECT ROUND(AVG(length),1) as abghrs FROM movies;
+6.
+SELECT MIN(networth) FROM movieexec;
+
+7.
+SELECT title,year,length FROM movies WHERE length is NULL;
+
+
+8.
+SELECT title,year,length FROM movies WHERE length is not NULL;
+
+9.
+SELECT * FROM starsin WHERE movieyear>1977 AND movieyear<1984 ORDER BY movieyear desc;
+
+10.
+SELECT * FROM movies WHERE title LIKE 'star ____';
+
+11.
+SELECT * FROM moviestar WHERE name LIKE '%s%';
+12.
+SELECT * FROM moviestar WHERE gender='F' OR name LIKE 'ms.%';
+
+13.
+SELECT address FROM studio WHERE name='Disney';
+
+14.
+SELECT birthdate FROM moviestar WHERE name='Jane Fonda';
+
+15.
+SELECT * FROM movies WHERE year='1977' OR studioname='MGM';
+
+16.
+SELECT COUNT(*) FROM starsin WHERE movietitle='star wars' AND movieyear='1977';
+17.
+SELECT starname FROM starsin WHERE movietitle='star wars' AND movieyear='1977';
+
+18.
+SELECT SUM(length) FROM movies WHERE studioname='MGM';
+SELECT SUM(length) FROM movies WHERE studioname='Disney';
+SELECT SUM(length) FROM movies WHERE studioname='Fox';
+SELECT SUM(length) FROM movies WHERE studioname='Paramount';

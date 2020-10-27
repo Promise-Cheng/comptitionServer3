@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql=require('../database')
-var multiparty=require('multiparty')
+// var multiparty=require('multiparty')
 var teacherInterface=require('../teacherInterface')
 var tc=new teacherInterface()
 var fs=require('fs')
@@ -583,67 +583,67 @@ router.post('/ChangeCompStateMinus',function (req,res) {
     })
 })
 
-router.post('/createTopic',(req,res)=>{
+// router.post('/createTopic',(req,res)=>{
 
-    let form=new multiparty.Form()
-   form.uploadDir='uploads/'
-    form.maxFieldsSize=2*1024*1024
-
-
-    form.parse(req,function (err,fields,files) {
-            if(err){
-                console.log('错误');
-                msg.info = '上传失败';
-                res.send(msg);
-                return ;
-            }
-        //   console.log(req.body)
-        //console.log(fields)
-            let questionName=fields.questionName[0]
-            let questionIntro=fields.questionIntro[0]
-            let questionAnsw=fields.questionAnsw[0]
-            let CompId=parseInt(fields.CompId[0])
-              //  console.log(CompId)
-            console.log(files)
-            let f=files['null']
-        /*对文件名称进行处理，存入数据库*/
-        let fileNames=[]
-        let names=[]
-        for(let i in f){
-            fileNames.push(f[i].originalFilename)
-            names.push(f[i].originalFilename.substring(0,f[i].originalFilename.lastIndexOf('.')))
-        }
-        let fileDesc=fileNames.join(';')
-        let fileName=names.join(';')
-
-        tc.get_compTopicSum(CompId).then(results=>{
-            console.log(results)
-            let questionNum=results+1
-            let data={questionIntro,questionName,questionAnsw,CompId,fileDesc,fileName,questionNum}
-            console.log(data)
-            return tc.insert_ques(data)
-        }).then(results=>{
-            console.log(results)
-
-            //同步重命名文件名
-            for (let i in f) {
-                fs.renameSync(f[i].path,form.uploadDir+f[i].originalFilename);
-            }
-            console.log('上传成功')
-            res.status(200).send({
-                result:'success'
-            });
-        }).catch(err=>{
-            console.log(err)
-            res.status(500).send()
-        })
-
-    }
-
-    )
+//     let form=new multiparty.Form()
+//    form.uploadDir='uploads/'
+//     form.maxFieldsSize=2*1024*1024
 
 
-})
+//     form.parse(req,function (err,fields,files) {
+//             if(err){
+//                 console.log('错误');
+//                 msg.info = '上传失败';
+//                 res.send(msg);
+//                 return ;
+//             }
+//         //   console.log(req.body)
+//         //console.log(fields)
+//             let questionName=fields.questionName[0]
+//             let questionIntro=fields.questionIntro[0]
+//             let questionAnsw=fields.questionAnsw[0]
+//             let CompId=parseInt(fields.CompId[0])
+//               //  console.log(CompId)
+//             console.log(files)
+//             let f=files['null']
+//         /*对文件名称进行处理，存入数据库*/
+//         let fileNames=[]
+//         let names=[]
+//         for(let i in f){
+//             fileNames.push(f[i].originalFilename)
+//             names.push(f[i].originalFilename.substring(0,f[i].originalFilename.lastIndexOf('.')))
+//         }
+//         let fileDesc=fileNames.join(';')
+//         let fileName=names.join(';')
+
+//         tc.get_compTopicSum(CompId).then(results=>{
+//             console.log(results)
+//             let questionNum=results+1
+//             let data={questionIntro,questionName,questionAnsw,CompId,fileDesc,fileName,questionNum}
+//             console.log(data)
+//             return tc.insert_ques(data)
+//         }).then(results=>{
+//             console.log(results)
+
+//             //同步重命名文件名
+//             for (let i in f) {
+//                 fs.renameSync(f[i].path,form.uploadDir+f[i].originalFilename);
+//             }
+//             console.log('上传成功')
+//             res.status(200).send({
+//                 result:'success'
+//             });
+//         }).catch(err=>{
+//             console.log(err)
+//             res.status(500).send()
+//         })
+
+//     }
+
+//     )
+
+
+// })
 
 /*获取某竞赛下所有的题目*/
 router.get('/Topics',function (req,res) {

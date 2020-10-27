@@ -25,6 +25,15 @@ class insertInterface{
             })
         })
     }
+    work(data){
+        return new Promise((resolve, reject) => {
+            let sql=sql_func.insert('works',data)
+            mysql.query(sql[0],sql[1],function (err,rows){
+               err&&reject(err)
+                 resolve(rows)
+            })
+        })
+    }
 }
 
 
