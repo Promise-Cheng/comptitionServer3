@@ -1,4 +1,4 @@
 const fileConfig={
-    basePath:"G:/AndroidProj/latest/comptitionServer3/public/uploads/"
+    basePath:"./public/uploads/"
 }
 module.exports=fileConfig
