@@ -353,7 +353,7 @@ router.get('/getWorks',function (req,res) {
             totalScore=complist.Score
         }
 
-        return tc.get_Works(teamCompId)
+        return tc.get_WorksWithQuestion(teamCompId)
     }).then(results=>{
 
         console.log(results)

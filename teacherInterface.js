@@ -406,6 +406,20 @@ class teacherInterface{
             })
         })
     }
+    /**2020/10/28 */
+    get_WorksWithQuestion(teamCompId){
+
+        return new Promise((resolve, reject) => {
+            let sql='SELECT w.workId,w.workName,w.Score,w.introduction,q.questionId,q.questionName,q.questionIntro FROM works w '
+            +' INNER JOIN question q ON w.question=q.questionId WHERE w.teamCompId=?;'
+            let params=[teamCompId]
+            mysql.query(sql,params,function (err,rows) {
+                err&&reject(err)
+                resolve(rows)
+            })
+        })
+    
+    }
     /*计算总分*/
     get_totalScore(teamCompId){
         return new Promise((resolve, reject) =>{
