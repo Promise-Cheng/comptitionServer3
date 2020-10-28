@@ -679,7 +679,8 @@ router.post("/uploadWorks",(req,res)=>{
       let tasks=[];
       let fileDescArray=[];
       let fileNameArray=[];
-      files['file'].forEach((item)=>{
+      if(files['file'].length){
+        files['file'].forEach((item)=>{
         let p=new Promise((resolve,reject)=>{
           fs.rename(item.path,item.path+item.name,(err)=>{
             fileDescArray.push(item.path+item.name);
@@ -690,6 +691,19 @@ router.post("/uploadWorks",(req,res)=>{
         })
         tasks.push(p)
       })
+
+    }else{
+      let item=files['file']
+      let p=new Promise((resolve,reject)=>{
+        fs.rename(item.path,item.path+item.name,(err)=>{
+          fileDescArray.push(item.path+item.name);
+          fileNameArray.push(item.name)
+          err&&reject(err)
+          resolve();
+        })
+      })
+      tasks.push(p)
+    }
         let submitId=req.session.stuId;
         
         let filePath=fileDescArray.join(';');
