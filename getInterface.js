@@ -479,7 +479,7 @@ class getInterface {
             // let sql=sql_func.query_c('team',keys,{teamLeader:stuId})
 
             let sql = sql_func.query_multiple('stu_team', 'team', [], bkeys, condition_on)
-            sql[0] = sql[0] + "WHERE team.teamLeader = " + stuId + " AND stu_team.IsPass !=2 AND stu_team.Role!='个人'"
+            sql[0] = sql[0] + "WHERE team.teamLeader = " + stuId + " AND stu_team.IsPass !=2 AND stu_team.Role='队长'"
             console.log(sql[0]);
             console.log('------------');
             console.log(sql[1]);
