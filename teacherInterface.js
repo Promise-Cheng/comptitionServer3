@@ -23,7 +23,7 @@ class teacherInterface{
     get_Topics(CompId,keys){
         return new Promise((resolve, reject) => {
 
-            let sql="SELECT q.questionId,q.questionName,q.questionIntro,COUNT(w.workId) as subWorkSum,COUNT(DISTINCT(tc.teamCompId)) subTeamSum FROM question q LEFT JOIN works w on q.questionId=w.question LEFT JOIN teamCompetion tc on w.teamCompId=tc.teamCompId WHERE q.CompId=? group by q.questionId,q.questionName,q.questionIntro"
+            let sql="SELECT q.questionId,q.questionName,q.questionIntro,COUNT(w.workId) as subWorkSum,COUNT(DISTINCT(tc.teamCompId)) subTeamSum FROM question q LEFT JOIN works w on q.questionId=w.question LEFT JOIN teamcompetion tc on w.teamCompId=tc.teamCompId WHERE q.CompId=? group by q.questionId,q.questionName,q.questionIntro"
             // let sql=sql_func.query_c('question',keys,{CompId})
             let params=[CompId]
             mysql.query(sql,params,function (err,rows) {
