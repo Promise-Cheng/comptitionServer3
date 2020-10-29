@@ -13,7 +13,7 @@ class getInterface {
         return new Promise((resolve,reject)=>{
             let sql='SELECT q.questionId,q.questionName,q.questionNum,tc.teamCompId,COUNT(w.workId) as subWorkSum FROM question q INNER JOIN teamcompetion tc ON q.CompId=tc.CompId '
             +' INNER JOIN stu_team st ON tc.teamId=st.teamId LEFT JOIN works w ON w.question=q.questionId WHERE st.stuId=? AND q.CompId=?'
-            +' GROUP BY q.questionId'
+            +' GROUP BY q.questionId,q.questionName,q.questionNum,tc.teamCompId'
             let params=[stuId,CompId];
             mysql.query(sql, params, function (err, rows) {
                 err && reject(err)
