@@ -30,18 +30,4 @@ var query=function(sql_str,sql_params,callback) {
 
     })
 }
-
-
-// database.connect(function (err) {
-//     if(err)
-//     {
-//         console.log('error connection: '+err.stack)
-//     }
-//     else
-//     {
-//         console.log('database connect successfully')
-//     }
-//
-// })
-
 module.exports={query}

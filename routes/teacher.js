@@ -26,7 +26,6 @@ router.post('/login',function (req,res) {
 
             req.session.teaId=info.teaId
             req.session.teaName=info.teaName
-            console.log( req.session.teaName+'登录')
             res.status(200).send({
                 result:'success',
                 data:info
@@ -53,7 +52,6 @@ router.post('/regist',function (req,res) {
 
     if(teaId===undefined||password===undefined|| CompTypeid===undefined||phoneNum===undefined||teaName===undefined){
         res.status(500).send()
-        console.log(teaId+' '+password+' '+CompTypeid+' '+' '+phoneNum+' '+teaName)
         return
     }
 

@@ -17,7 +17,6 @@ class getInterface {
             let params = ['student']
             mysql.query(sql, params, function (err, rows) {
                 err && reject(err)
-                console.log(rows)
                 resolve(rows[0].userSum)
             })
         })
@@ -30,7 +29,6 @@ class getInterface {
             let sql = "SELECT COUNT(*) as teamSum FROM team"
             mysql.query(sql, null, function (err, rows) {
                 err && reject(err)
-                console.log(rows)
                 resolve(rows[0].teamSum)
             })
         })
@@ -301,7 +299,6 @@ class getInterface {
             let sql = sql_func.query_c('team', ['teamId'], {teamLeader: stuId, teamName})
             mysql.query(sql[0], sql[1], function (err, rows) {
                 err && reject(err)
-                // console.log(rows[0])
                 resolve(rows[0])
             })
         })
@@ -373,7 +370,6 @@ class getInterface {
             console.log(sql)
             mysql.query(sql[0], sql[1], function (err, rows) {
                 err && reject(err)
-                console.log(rows[0])
                 resolve(rows[0])
             })
 
@@ -409,7 +405,6 @@ class getInterface {
             console.log(sql)
             mysql.query(sql[0], sql[1], function (err, rows) {
                 err && reject(err)
-                console.log(rows)
                 resolve(rows)
             })
         })
@@ -468,9 +463,6 @@ class getInterface {
 
             let sql = sql_func.query_multiple('stu_team', 'team', [], bkeys, condition_on)
             sql[0] = sql[0] + "WHERE team.teamLeader = " + stuId + " AND stu_team.IsPass !=2 AND stu_team.Role!='个人'"
-            console.log(sql[0]);
-            console.log('------------');
-            console.log(sql[1]);
             mysql.query(sql[0], sql[1], function (err, rows) {
                 err && reject[err]
                 resolve(rows)

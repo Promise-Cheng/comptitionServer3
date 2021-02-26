@@ -51,7 +51,6 @@ router.get("/latest",function(req,res){
 router.get('/show',function (req,res) {
     //查询数据：竞赛名称，指导老师，竞赛状态
     //查询条件，compstatusID
-    console.log(req.query)
     let page=req.query.page||1
     let size=req.query.size||5
     page=parseInt(page)
@@ -62,8 +61,6 @@ router.get('/show',function (req,res) {
     }
     let data=null
     let Sum=null
-    //console.log('status: '+req.query.status)
-    console.log(limit)
     if(req.query.status===undefined)
     {
         res.status(500).send({
@@ -117,7 +114,6 @@ router.get('/Search',function (req,res) {
         params.push(compStateID)
     }*/
     console.log(sql)
-    console.log(params)
     mysql.query(sql,params,function (err,rows) {
         if(err){
             res.status(500).send()
