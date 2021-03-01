@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('../database')
-const checkAuth =  require('../middlewares/checkAuth')
+const checkAuth = require('../middlewares/checkAuth')
 
 var sql_interface = require('../myInterface')
 var sql_func = new sql_interface();
@@ -17,7 +17,7 @@ var sql_func = new sql_interface();
 //检验是否登录
 router.get('/api/checkSession', async (req, res) => {
     const authInfo = req.session.isLogin
-    res.json({ ok: !!authInfo })
+    res.json({ok: !!authInfo})
 })
 //登录
 router.post('/login', function (req, res, fields) {
@@ -197,5 +197,14 @@ router.get('/home', function (req, res) {
         res.status(500).send()
     })
 })
+
+// 获取当前用户登录信息
+router.get('/getUserInfo', checkAuth, function (req, res) {
+    res.status(200).send({
+        result: 'success',
+        data: req.session.userInfo
+    })
+})
+
 module.exports = router
 
