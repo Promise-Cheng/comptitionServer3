@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('../database')
 const checkAuth = require('../middlewares/checkAuth')
+const bcrypt= require('bcryptjs')
 
 var sql_interface = require('../myInterface')
 var sql_func = new sql_interface();
@@ -23,8 +24,8 @@ router.get('/api/checkSession', async (req, res) => {
 router.post('/login', function (req, res, fields) {
     let stuNum = req.body.stuNum;
     let password = req.body.password;
-    let condition = {'stuNum': stuNum, 'password': password}
-    let key = ['stuId', 'stuNum', 'stuName', 'class', 'phoneNum', 'QQ', 'email']
+    let condition = {'stuNum': stuNum}
+    let key = ['stuId', 'stuNum', 'stuName', 'class', 'phoneNum', 'QQ', 'email','password']
     let sql_query = sql_func.query_c('student', key, condition)
     mysql.query(sql_query[0], sql_query[1], function (err, rows, fields) {
         if (err) {
@@ -45,12 +46,19 @@ router.post('/login', function (req, res, fields) {
             return;
         }
         //查询有结果
+        if(!bcrypt.compareSync(rows[0].password, password)){
+            res.status(200).send({
+                'result': 'null'
+            })
+            console.log(stuNum + '登陆失败')
+            res.end();
+            return;
+        }
         req.session.stuId = rows[0].stuId;
         req.session.userInfo = rows[0];
         req.session.isLogin = true;
         res.status(200).send({
             'result': 'success',
-            'info': rows[0]
         })
     })
 
