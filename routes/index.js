@@ -81,6 +81,7 @@ router.post('/logout', checkAuth, function (req, res, fields) {
 //注册
 router.post('/register', function (req, res, next) {
     var sql_str = {}
+    console.log(req.body)
     var stuNum = req.body.stuNum;
     if (stuNum) {
         sql_str['stuNum'] = stuNum
@@ -123,7 +124,7 @@ router.post('/register', function (req, res, next) {
     }
 
     if (!stuNum || !password || !stuName) {
-        res.status(500).send();
+        res.status(500).send({"result":'error',"message": '学号、密码、姓名必填'},);
         return;
     }
     let sql_query = sql_func.query_c('student', ['stuNum'], {'stuNum': stuNum})
