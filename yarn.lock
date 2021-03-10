@@ -470,6 +470,11 @@ minimist@^1.2.5:
   resolved "https://registry.npm.taobao.org/minimist/download/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha1-Z9ZgFLZqaoqqDAg8X9WN9OTpdgI=
 
+minimist@~0.0.1:
+  version "0.0.10"
+  resolved "https://registry.npm.taobao.org/minimist/download/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
+  integrity sha1-3j+YVD2/lggr5IrRoMfNqDYwHc8=
+
 mkdirp@~0.5.0:
   version "0.5.5"
   resolved "https://registry.npm.taobao.org/mkdirp/download/mkdirp-0.5.5.tgz#d91cefd62d1436ca0f41620e251288d420099def"
@@ -522,6 +527,14 @@ negotiator@0.6.2:
   resolved "https://registry.npm.taobao.org/negotiator/download/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
   integrity sha1-/qz3zPUlp3rpY0Q2pkiD/+yjRvs=
 
+node-windows@^1.0.0-beta.5:
+  version "1.0.0-beta.5"
+  resolved "https://registry.npm.taobao.org/node-windows/download/node-windows-1.0.0-beta.5.tgz#f79288b1ca6f1f41a6d31229902c611a21abb9d6"
+  integrity sha1-95KIscpvH0Gm0xIpkCxhGiGrudY=
+  dependencies:
+    optimist "~0.6.0"
+    xml "0.0.12"
+
 on-finished@~2.3.0:
   version "2.3.0"
   resolved "https://registry.npm.taobao.org/on-finished/download/on-finished-2.3.0.tgz#20f1336481b083cd75337992a16971aa2d906947"
@@ -541,6 +554,14 @@ optimist@~0.3.5:
   dependencies:
     wordwrap "~0.0.2"
 
+optimist@~0.6.0:
+  version "0.6.1"
+  resolved "https://registry.npm.taobao.org/optimist/download/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
+  integrity sha1-2j6nRob6IaGaERwybpDrFaAZZoY=
+  dependencies:
+    minimist "~0.0.1"
+    wordwrap "~0.0.2"
+
 parseurl@~1.3.2, parseurl@~1.3.3:
   version "1.3.3"
   resolved "https://registry.npm.taobao.org/parseurl/download/parseurl-1.3.3.tgz#9da19e7bee8d12dff0513ed5b76957793bc2e8d4"
@@ -551,10 +572,23 @@ path-to-regexp@0.1.7:
   resolved "https://registry.npm.taobao.org/path-to-regexp/download/path-to-regexp-0.1.7.tgz?cache=0&sync_timestamp=1601400328354&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpath-to-regexp%2Fdownload%2Fpath-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
   integrity sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
 
+path@^0.12.7:
+  version "0.12.7"
+  resolved "https://registry.npm.taobao.org/path/download/path-0.12.7.tgz#d4dc2a506c4ce2197eb481ebfcd5b36c0140b10f"
+  integrity sha1-1NwqUGxM4hl+tIHr/NWzbAFAsQ8=
+  dependencies:
+    process "^0.11.1"
+    util "^0.10.3"
+
 process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.npm.taobao.org/process-nextick-args/download/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
   integrity sha1-eCDZsWEgzFXKmud5JoCufbptf+I=
+
+process@^0.11.1:
+  version "0.11.10"
+  resolved "https://registry.npm.taobao.org/process/download/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
+  integrity sha1-czIwDoQBYb2j5podHZGn1LwW8YI=
 
 promise@^6.0.1:
   version "6.1.0"
@@ -790,6 +824,13 @@ util-deprecate@~1.0.1:
   resolved "https://registry.npm.taobao.org/util-deprecate/download/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
 
+util@^0.10.3:
+  version "0.10.4"
+  resolved "https://registry.npm.taobao.org/util/download/util-0.10.4.tgz#3aa0125bfe668a4672de58857d3ace27ecb76901"
+  integrity sha1-OqASW/5mikZy3liFfTrOJ+y3aQE=
+  dependencies:
+    inherits "2.0.3"
+
 utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/utils-merge/download/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
@@ -827,6 +868,11 @@ wordwrap@~0.0.2:
   version "0.0.3"
   resolved "https://registry.npm.taobao.org/wordwrap/download/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
   integrity sha1-o9XabNXAvAAI03I0u68b7WMFkQc=
+
+xml@0.0.12:
+  version "0.0.12"
+  resolved "https://registry.npm.taobao.org/xml/download/xml-0.0.12.tgz#f08b347109912be00285785f46f15ad8e50a5f67"
+  integrity sha1-8Is0cQmRK+AChXhfRvFa2OUKX2c=
 
 yargs@~3.10.0:
   version "3.10.0"
