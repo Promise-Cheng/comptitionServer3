@@ -1,0 +1,264 @@
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+2015329620027登陆失败
+[0mPOST /login [32m200 [0m116.118 ms - 17[0m
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+2015329620027登陆失败
+[0mPOST /login [32m200 [0m21.147 ms - 17[0m
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+2015329620027登陆失败
+[0mPOST /login [32m200 [0m2.709 ms - 17[0m
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+2015329620027登陆失败
+[0mPOST /login [32m200 [0m3.045 ms - 17[0m
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+2015329620027登陆失败
+[0mPOST /login [32m200 [0m1.739 ms - 17[0m
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+[0mPOST /login [32m200 [0m468.155 ms - 20[0m
+数据库连接池连接成功 id:12
+数据库连接池连接成功 id:14
+*****连接池释放 id:12
+数据库连接池连接成功 id:12
+数据库连接池连接成功 id:13
+*****连接池释放 id:12
+数据库连接池连接成功 id:12
+*****连接池释放 id:14
+数据库连接池连接成功 id:14
+*****连接池释放 id:14
+[0mGET /teams/show?page=1&size=4 [32m200 [0m909.667 ms - 417[0m
+*****连接池释放 id:12
+[0mGET /home [32m200 [0m1130.972 ms - 182[0m
+*****连接池释放 id:13
+[0mGET /Competitions/latest?status=-1&size=4 [32m200 [0m1210.113 ms - 797[0m
+数据库连接池连接成功 id:14
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+[0mGET /Competitions/latest?status=-1&size=4 [36m304 [0m7.095 ms - -[0m
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+[0mGET /teams/show?page=1&size=4 [36m304 [0m6.376 ms - -[0m
+*****连接池释放 id:14
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+[0mGET /home [36m304 [0m76.262 ms - -[0m
+数据库连接池连接成功 id:14
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+[0mGET /Competitions/latest?status=-1&size=4 [36m304 [0m4.838 ms - -[0m
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+[0mGET /teams/show?page=1&size=4 [36m304 [0m6.952 ms - -[0m
+*****连接池释放 id:14
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+[0mGET /home [36m304 [0m74.024 ms - -[0m
+[0mGET /api/checkSession [32m200 [0m1.619 ms - 11[0m
+[0mGET /getUserInfo [32m200 [0m17.124 ms - 182[0m
+[0mGET /api/checkSession [36m304 [0m0.809 ms - -[0m
+[
+  "SELECT ??,??,??,?? FROM stu_team INNER JOIN team ON ??=?? WHERE ??=? AND stu_team.IsPass !=2 AND stu_team.Role!='个人'",
+  [
+    'stu_team.Role',
+    'stu_team.IsPass',
+    'team.teamId',
+    'team.teamName',
+    'stu_team.teamId',
+    'team.teamId',
+    'stu_team.stuId',
+    1
+  ]
+]
+数据库连接池连接成功 id:14
+*****连接池释放 id:14
+[0mGET /users/manage?page=1&size=10&keywords= [32m200 [0m193.013 ms - 120[0m
+1
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+[0mGET /users/myComp?status=0&page=1&size=10&keywords= [32m200 [0m88.241 ms - 368[0m
+[0mGET /api/checkSession [36m304 [0m1.234 ms - -[0m
+[0mGET /api/checkSession [36m304 [0m1.225 ms - -[0m
+[0mGET /api/checkSession [36m304 [0m1.184 ms - -[0m
+数据库连接池连接成功 id:14
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+[0mGET /Competitions/latest?status=-1&size=4 [36m304 [0m4.488 ms - -[0m
+*****连接池释放 id:14
+数据库连接池连接成功 id:13
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+数据库连接池连接成功 id:14
+*****连接池释放 id:14
+[0mGET /teams/show?page=1&size=4 [36m304 [0m7.972 ms - -[0m
+*****连接池释放 id:13
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+[0mGET /home [36m304 [0m18.569 ms - -[0m
+1
+数据库连接池连接成功 id:14
+*****连接池释放 id:14
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+[0mGET /users/myComp?status=0&page=1&size=10&keywords= [36m304 [0m12.350 ms - -[0m
+1
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+数据库连接池连接成功 id:14
+*****连接池释放 id:14
+[0mGET /users/myComp?status=0&page=1&size=10&keywords= [36m304 [0m6.634 ms - -[0m
+1
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+[0mGET /users/myComp?status=0&page=1&size=10&keywords= [36m304 [0m14.323 ms - -[0m
+1
+数据库连接池连接成功 id:14
+*****连接池释放 id:14
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+[0mGET /users/myComp?status=0&page=1&size=10&keywords= [36m304 [0m19.019 ms - -[0m
+1
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+数据库连接池连接成功 id:14
+*****连接池释放 id:14
+[0mGET /users/myComp?status=0&page=1&size=10&keywords= [36m304 [0m6.514 ms - -[0m
+1
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+[0mGET /users/myComp?status=0&page=1&size=10&keywords= [36m304 [0m5.542 ms - -[0m
+1
+数据库连接池连接成功 id:14
+*****连接池释放 id:14
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+[0mGET /users/myComp?status=0&page=1&size=10&keywords= [36m304 [0m10.195 ms - -[0m
+1
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+数据库连接池连接成功 id:14
+*****连接池释放 id:14
+[0mGET /users/myComp?status=0&page=1&size=10&keywords= [36m304 [0m9.898 ms - -[0m
+1
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+[0mGET /users/myComp?status=0&page=1&size=10&keywords= [36m304 [0m10.357 ms - -[0m
+[0mGET /api/checkSession [36m304 [0m1.353 ms - -[0m
+[
+  "SELECT ??,??,??,?? FROM stu_team INNER JOIN team ON ??=?? WHERE ??=? AND stu_team.IsPass !=2 AND stu_team.Role!='个人'",
+  [
+    'stu_team.Role',
+    'stu_team.IsPass',
+    'team.teamId',
+    'team.teamName',
+    'stu_team.teamId',
+    'team.teamId',
+    'stu_team.stuId',
+    1
+  ]
+]
+数据库连接池连接成功 id:14
+*****连接池释放 id:14
+[0mGET /users/manage?page=1&size=10&keywords= [36m304 [0m5.629 ms - -[0m
+[
+  "SELECT ??,??,??,?? FROM stu_team INNER JOIN team ON ??=?? WHERE ??=? AND stu_team.IsPass !=2 AND stu_team.Role!='个人'",
+  [
+    'stu_team.Role',
+    'stu_team.IsPass',
+    'team.teamId',
+    'team.teamName',
+    'stu_team.teamId',
+    'team.teamId',
+    'stu_team.stuId',
+    1
+  ]
+]
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+[0mGET /users/manage?page=1&size=10&keywords= [36m304 [0m5.006 ms - -[0m
+[
+  "SELECT ??,??,??,?? FROM stu_team INNER JOIN team ON ??=?? WHERE ??=? AND stu_team.IsPass !=2 AND stu_team.Role!='个人'",
+  [
+    'stu_team.Role',
+    'stu_team.IsPass',
+    'team.teamId',
+    'team.teamName',
+    'stu_team.teamId',
+    'team.teamId',
+    'stu_team.stuId',
+    1
+  ]
+]
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+[0mGET /users/manage?page=1&size=10&keywords= [36m304 [0m11.932 ms - -[0m
+[
+  "SELECT ??,??,??,?? FROM stu_team INNER JOIN team ON ??=?? WHERE ??=? AND stu_team.IsPass !=2 AND stu_team.Role!='个人'",
+  [
+    'stu_team.Role',
+    'stu_team.IsPass',
+    'team.teamId',
+    'team.teamName',
+    'stu_team.teamId',
+    'team.teamId',
+    'stu_team.stuId',
+    1
+  ]
+]
+数据库连接池连接成功 id:14
+*****连接池释放 id:14
+[0mGET /users/manage?page=1&size=10&keywords= [36m304 [0m7.406 ms - -[0m
+[
+  "SELECT ??,??,??,?? FROM stu_team INNER JOIN team ON ??=?? WHERE ??=? AND stu_team.IsPass !=2 AND stu_team.Role!='个人'",
+  [
+    'stu_team.Role',
+    'stu_team.IsPass',
+    'team.teamId',
+    'team.teamName',
+    'stu_team.teamId',
+    'team.teamId',
+    'stu_team.stuId',
+    1
+  ]
+]
+数据库连接池连接成功 id:13
+*****连接池释放 id:13
+[0mGET /users/manage?page=1&size=10&keywords= [36m304 [0m6.893 ms - -[0m
+[
+  "SELECT ??,??,??,?? FROM stu_team INNER JOIN team ON ??=?? WHERE ??=? AND stu_team.IsPass !=2 AND stu_team.Role!='个人'",
+  [
+    'stu_team.Role',
+    'stu_team.IsPass',
+    'team.teamId',
+    'team.teamName',
+    'stu_team.teamId',
+    'team.teamId',
+    'stu_team.stuId',
+    1
+  ]
+]
+数据库连接池连接成功 id:12
+*****连接池释放 id:12
+[0mGET /users/manage?page=1&size=10&keywords= [36m304 [0m4.186 ms - -[0m
+[0mGET /api/checkSession [36m304 [0m0.954 ms - -[0m
+[0mGET /api/checkSession [36m304 [0m1.600 ms - -[0m

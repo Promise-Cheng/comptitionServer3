@@ -1,0 +1,16 @@
+2021-03-11 08:28:54 - Starting C:\Program Files\nodejs\node.exe  --harmony --max_old_space_size=4096 C:\Users\Promise_Cheng\WebstormProjects\comptitionServer3\node_modules\node-windows\lib\wrapper.js --file C:\Users\Promise_Cheng\WebstormProjects\comptitionServer3\bin\www --scriptoptions= --log "a node windows server test wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-03-11 08:28:54 - Started 15388
+2021-03-11 11:24:09 - Stopping anodewindowsservertest.exe
+2021-03-11 11:24:09 - ProcessKill 15388
+2021-03-11 11:24:09 - Found child process: 19260 Name: conhost.exe
+2021-03-11 11:24:09 - Found child process: 7588 Name: node.exe
+2021-03-11 11:24:10 - Stopping process 19260
+2021-03-11 11:24:10 - Send SIGINT 19260
+2021-03-11 11:24:10 - SIGINT to 19260 failed - Killing as fallback
+2021-03-11 11:24:11 - Stopping process 7588
+2021-03-11 11:24:11 - Send SIGINT 7588
+2021-03-11 11:24:11 - SIGINT to 7588 failed - Killing as fallback
+2021-03-11 11:24:11 - Stopping process 15388
+2021-03-11 11:24:11 - Send SIGINT 15388
+2021-03-11 11:24:11 - SIGINT to 15388 failed - Killing as fallback
+2021-03-11 11:24:11 - Finished anodewindowsservertest.exe
