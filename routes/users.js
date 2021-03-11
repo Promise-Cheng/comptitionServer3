@@ -1,16 +1,21 @@
 var express = require('express');
 var router = express.Router();
-var mysql = require('../database')
+var mysql=require('../database')
 const checkAuth = require('../middlewares/checkAuth')
-
-var sql_interface = require('../myInterface')
-var sql_func = new sql_interface();
-var get_interface = require('../getInterface')
-var get_func = new get_interface()
-var up_interface = require('../updateInterface')
-var up = new up_interface()
-var insert_interface = require('../insertInterface')
-var ins = new insert_interface()
+const fs=require('fs')
+// var multiparty = require('multiparty');
+const formidable = require('formidable');
+var fileConfig=require("../fileConfig")
+// var form = new multiparty.Form({ uploadDir:fileConfig.basePath});
+var sql_interface=require('../myInterface')
+var sql_func=new sql_interface();
+var get_interface=require('../getInterface')
+var get_func=new get_interface()
+var up_interface=require('../updateInterface')
+var up=new up_interface()
+var insert_interface=require('../insertInterface');
+const { reject } = require('async');
+var ins=new insert_interface()
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     res.send('respond with a resource');
@@ -508,7 +513,39 @@ router.get('/showTopic', function (req, res) {
             data: rows
         })
 
+  })
+})
+
+/*题目列表*/
+router.get('/showMyTopic',async (req,res)=>{
+  let CompId=req.query.CompId
+  let stuId=req.session.stuId
+
+  try{
+    let rows=await get_func.get_myTopics(stuId,CompId)
+    res.status(200).send({
+      result:'success',
+      data:rows
     })
+  }catch(err){
+    console.log(err)
+    res.status(500).send();
+  }
+  // let keys=['questionId','questionNum','questionName']
+  // let condition={CompId}
+  // let sql=sql_func.query_c('question',keys,condition)
+  // mysql.query(sql[0],sql[1],function (err,rows) {
+  //   if(err){
+  //     res.status(500).send()
+  //     return
+  //   }
+
+  //   res.status(200).send({
+  //     result:'success',
+  //     data:rows
+  //   })
+
+  // })
 })
 /*题目详情*/
 router.get('/showTopic/detail', function (req, res) {

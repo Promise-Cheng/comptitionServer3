@@ -130,10 +130,12 @@ router.get('/Search',function (req,res) {
 router.get ('/detail',function (req,res,next) {
     //返回竞赛名称、类型，起止时间、人数限制、指导老师、竞赛描述
     let CompId=req.query.CompId
-    let akeys=['compName','obstartTime','obendTime','teacher','compIntro','personNum']
+    let akeys=['compName','compStateID','obstartTime','obendTime','teacher','compIntro','personNum']
     let bkeys=['CompName']
     let condition={CompId:CompId}
     let sql=sql_func.query_multiple('competition','compcode',akeys,bkeys,{CompTypeid:'CompTypeid'},condition)
+    console.log(sql[0])
+    console.log(sql[1])
     mysql.query(sql[0],sql[1],function (err,rows) {
         if(err)
         {

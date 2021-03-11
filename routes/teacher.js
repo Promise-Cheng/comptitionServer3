@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var mysql=require('../database')
-var multiparty=require('multiparty')
+// var multiparty=require('multiparty')
 var teacherInterface=require('../teacherInterface')
 var tc=new teacherInterface()
 var fs=require('fs')
 var moment=require('moment')
+var fileConfig=require("../fileConfig")
 /*登录*/
 router.post('/login',function (req,res) {
         let teaId=req.body.teaId
@@ -350,7 +351,7 @@ router.get('/getWorks',function (req,res) {
             totalScore=complist.Score
         }
 
-        return tc.get_Works(teamCompId)
+        return tc.get_WorksWithQuestion(teamCompId)
     }).then(results=>{
 
         console.log(results)
@@ -553,68 +554,94 @@ router.post('/ChangeCompState',function (req,res) {
         }
     })
 })
-
-router.post('/createTopic',(req,res)=>{
-
-    let form=new multiparty.Form()
-   form.uploadDir='uploads/'
-    form.maxFieldsSize=2*1024*1024
-
-
-    form.parse(req,function (err,fields,files) {
-            if(err){
-                console.log('错误');
-                msg.info = '上传失败';
-                res.send(msg);
-                return ;
-            }
-        //   console.log(req.body)
-        //console.log(fields)
-            let questionName=fields.questionName[0]
-            let questionIntro=fields.questionIntro[0]
-            let questionAnsw=fields.questionAnsw[0]
-            let CompId=parseInt(fields.CompId[0])
-              //  console.log(CompId)
-            console.log(files)
-            let f=files['null']
-        /*对文件名称进行处理，存入数据库*/
-        let fileNames=[]
-        let names=[]
-        for(let i in f){
-            fileNames.push(f[i].originalFilename)
-            names.push(f[i].originalFilename.substring(0,f[i].originalFilename.lastIndexOf('.')))
-        }
-        let fileDesc=fileNames.join(';')
-        let fileName=names.join(';')
-
-        tc.get_compTopicSum(CompId).then(results=>{
-            console.log(results)
-            let questionNum=results+1
-            let data={questionIntro,questionName,questionAnsw,CompId,fileDesc,fileName,questionNum}
-            console.log(data)
-            return tc.insert_ques(data)
-        }).then(results=>{
-            console.log(results)
-
-            //同步重命名文件名
-            for (let i in f) {
-                fs.renameSync(f[i].path,form.uploadDir+f[i].originalFilename);
-            }
-            console.log('上传成功')
-            res.status(200).send({
-                result:'success'
-            });
-        }).catch(err=>{
-            console.log(err)
-            res.status(500).send()
-        })
-
+/*递减竞赛状态*/
+router.post('/ChangeCompStateMinus',function (req,res) {
+    let compStateID=parseInt(req.body.compStateID)
+    let CompId=req.body.CompId
+    if(compStateID===undefined||CompId===undefined){
+        res.status(500).send()
+        return
     }
+    tc.update_CompStateMinus(CompId,compStateID).then(results=>{
+        res.status(200).send({
+            result:'success'
+        })
+    }).catch(err=>{
+        switch (err) {
+            case 1:
+                res.status(200).send({
+                    result:'error'
+                })
+                break;
+            default:
+                console.log(err)
+                res.status(500).send()
 
-    )
-
-
+        }
+    })
 })
+
+// router.post('/createTopic',(req,res)=>{
+
+//     let form=new multiparty.Form()
+//    form.uploadDir='uploads/'
+//     form.maxFieldsSize=2*1024*1024
+
+
+//     form.parse(req,function (err,fields,files) {
+//             if(err){
+//                 console.log('错误');
+//                 msg.info = '上传失败';
+//                 res.send(msg);
+//                 return ;
+//             }
+//         //   console.log(req.body)
+//         //console.log(fields)
+//             let questionName=fields.questionName[0]
+//             let questionIntro=fields.questionIntro[0]
+//             let questionAnsw=fields.questionAnsw[0]
+//             let CompId=parseInt(fields.CompId[0])
+//               //  console.log(CompId)
+//             console.log(files)
+//             let f=files['null']
+//         /*对文件名称进行处理，存入数据库*/
+//         let fileNames=[]
+//         let names=[]
+//         for(let i in f){
+//             fileNames.push(f[i].originalFilename)
+//             names.push(f[i].originalFilename.substring(0,f[i].originalFilename.lastIndexOf('.')))
+//         }
+//         let fileDesc=fileNames.join(';')
+//         let fileName=names.join(';')
+
+//         tc.get_compTopicSum(CompId).then(results=>{
+//             console.log(results)
+//             let questionNum=results+1
+//             let data={questionIntro,questionName,questionAnsw,CompId,fileDesc,fileName,questionNum}
+//             console.log(data)
+//             return tc.insert_ques(data)
+//         }).then(results=>{
+//             console.log(results)
+
+//             //同步重命名文件名
+//             for (let i in f) {
+//                 fs.renameSync(f[i].path,form.uploadDir+f[i].originalFilename);
+//             }
+//             console.log('上传成功')
+//             res.status(200).send({
+//                 result:'success'
+//             });
+//         }).catch(err=>{
+//             console.log(err)
+//             res.status(500).send()
+//         })
+
+//     }
+
+//     )
+
+
+// })
 
 /*获取某竞赛下所有的题目*/
 router.get('/Topics',function (req,res) {
@@ -624,12 +651,17 @@ router.get('/Topics',function (req,res) {
         return
     }
     let keys=['questionId','questionName','questionNum']
+    let teamSum=0;
 
-    tc.get_Topics(CompId,keys).then(results=>{
+    tc.get_TeamSumByCompId(CompId).then(sum=>{
+        teamSum=sum;
+        return tc.get_Topics(CompId,keys)
+    }).then(results=>{
         console.log(results)
         res.status(200).send({
             result:'success',
-            data:results
+            data:results,
+            teamSum
         })
     }).catch(err=>{
         console.log(err)
@@ -654,13 +686,15 @@ router.get('/TopicDetail',function (req,res) {
 
 router.get('/downloadfile',function (req,res) {
     let savedPath=req.query.savedPath
-    let basePath='./uploads/'
-    let realPath=basePath+savedPath
+    let realName=req.query.realName;
+    // let basePath='./uploads/'
+    let realPath=fileConfig.basePath+savedPath
+    console.log(realPath)
     var size = fs.statSync(realPath).size;
     var f = fs.createReadStream(realPath);
     res.writeHead(200, {
-        'Content-Type': 'application/force-download',
-        'Content-Disposition': 'attachment; filename=' + savedPath,
+        'Content-Type': 'application/octet-stream',
+        'Content-Disposition': 'attachment; filename=' + realName,
         'Content-Length': size
     });
     f.pipe(res);
