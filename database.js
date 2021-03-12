@@ -11,8 +11,6 @@ const pool=mysql.createPool({
 
 
 var query=function(sql_str,sql_params,callback) {
-    console.log(sql_str)
-    console.log(sql_params)
     pool.getConnection((err, connection)=> {
         if (err) {
             callback(err, null,null)

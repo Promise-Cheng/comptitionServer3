@@ -1,14 +1,15 @@
 const fs = require('fs')
 const formidable = require('formidable');
-let fileConfig = require("../../fileConfig")
 var express = require('express');
 var router = express.Router();
 const errorStatus = require('./errorStatus');
 const checkAuth = require('../../middlewares/checkAuth')
 var insert_interface = require('../../insertInterface');
+var get_interface = require('../../getInterface');
+let get = new get_interface()
 var ins = new insert_interface()
 
-function uploadFile(req, res, callBack) {
+function uploadFile(req, callBack) {
   //然后在post或者get页面里面实例化对象
   let form = new formidable.IncomingForm(); //创建上传表单
   //设置下上传地址和编码
@@ -21,8 +22,7 @@ function uploadFile(req, res, callBack) {
 }
 
 function downloadFile(req, res, options) {
-  res.setHeader(`Content-Disposition", "attachment; filename=${options.filename}`);
-  res.download(".\\" + options.path, options.filename, (err) => {
+  res.download(".\\public\\uploads\\" + options.path, options.filename, (err) => {
     if (err) {
       console.log(err)
     } else {
@@ -31,16 +31,10 @@ function downloadFile(req, res, options) {
   });
 }
 
-router.get('/d', function (req, res) {
-  let options = {
-    path: '',
-    fileName: ''
-  }
-  downloadFile(req, res, options)
-});
 router.post("/uploadWorks", checkAuth, (req, res, next) => {
-  const form = formidable({multiples: true, uploadDir: fileConfig.basePath});
-  form.parse(req, async (err, fields, files) => {
+  console.log(11111)
+  uploadFile(req, async (err, fields, files) => {
+    console.log(files)
     try {
       if (err) {
         next(err)
@@ -49,36 +43,23 @@ router.post("/uploadWorks", checkAuth, (req, res, next) => {
       if (!fields.teamCompId || !fields.workName || !fields.question) {
         next(400)
       }
-      let tasks = [];
-      let fileDescArray = [];
-      let fileNameArray = [];
-      if (files['file'].length) { //多文件
-        files['file'].forEach((item) => {
-          const p = new Promise((resolve, reject) => {
-            fs.rename(item.path, item.path + item.name, (err) => {
-              fileDescArray.push(item.path + item.name);
-              fileNameArray.push(item.name)
-              err && reject(err)
-              resolve();
-            })
-          });
-          tasks.push(p)
+      let item = files['file']
+      let fileDescArray = []
+      let fileNameArray = []
+      await new Promise((resolve, reject) => {
+        let newPath = item.path + item.name
+        fs.rename(item.path, newPath, (err) => {
+          let index = newPath.lastIndexOf('\\')
+          if (index !== -1) {
+            newPath = newPath.substring(index + 1, newPath.length)
+          }
+          fileDescArray.push(newPath);
+          fileNameArray.push(item.name)
+          err && reject(err)
+          resolve();
         })
-
-      } else {//单文件
-        let item = files['file']
-        let p = new Promise((resolve, reject) => {
-          fs.rename(item.path, item.path + item.name, (err) => {
-            fileDescArray.push(item.path + item.name);
-            fileNameArray.push(item.name)
-            err && reject(err)
-            resolve();
-          })
-        })
-        tasks.push(p)
-      }
+      })
       let submitId = req.session.stuId;
-
       let filePath = fileDescArray.join(';');
       let fileName = fileNameArray.join(';');
       let teamCompId = fields.teamCompId;
@@ -86,7 +67,6 @@ router.post("/uploadWorks", checkAuth, (req, res, next) => {
       let question = fields.question || '';
       let submitTime = '2020-02-01 11:11:11';
       let introduction = fields.introduction || '';
-      let fileTasks = Promise.all(tasks);
       let data = {submitId, filePath, fileName, teamCompId, workName, question, submitTime, introduction}
       let rows = await ins.work(data);
       res.status(200).send({
@@ -97,22 +77,25 @@ router.post("/uploadWorks", checkAuth, (req, res, next) => {
       console.log(err)
       res.status(500).send();
     }
-  });
+  })
 })
 
-
-
-router.post('/', (req, res, next) => {
-  next(400)
-  // uploadFile(req, res, (err, fields, files) => {
-  //     if (err) {
-  //         res.send(err);
-  //         return;
-  //     }
-  //     console.log(fields, "-------------", files);
-  //     res.send(files);
-  // })
-})
+router.get('/download', async (req, res, next) => {
+  if(!req.query.workId){
+    next(400)
+    return
+  }
+  const rows = await get.getWorksByID(req.query.workId);
+  if (rows.length === 0) {
+    next(404)
+    return
+  }
+  let options = {
+    path: rows[0].filePath,
+    filename: rows[0].fileName
+  }
+  downloadFile(req, res, options)
+});
 
 router.use((err, req, res, next) => {
   if (typeof err === 'number') {
