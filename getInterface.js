@@ -108,8 +108,9 @@ class getInterface {
         + ' ON c.compStateID=s.compStateID '
         + ' INNER JOIN compcode cc '
         + ' ON c.CompTypeid=cc.CompTypeid '
-        + ' WHERE st.stuId=?  '
-        + 'ORDER BY compStateID'
+        + ' WHERE st.stuId=?'
+        + ' AND st.IsPass = 1'
+        + ' ORDER BY compStateID'
       let params = [stuId]
       mysql.query(sql, params, function (err, rows) {
         err && reject(rows)
@@ -142,6 +143,7 @@ class getInterface {
         + ' INNER JOIN compcode cc '
         + ' ON c.CompTypeid=cc.CompTypeid '
         + ' WHERE st.stuId=?  AND c.compStateID=1'
+        + ' AND st.IsPass = 1'
       let params = [stuId]
       mysql.query(sql, params, function (err, rows) {
         err && reject(rows)
@@ -174,6 +176,7 @@ class getInterface {
         + ' INNER JOIN compcode cc '
         + ' ON c.CompTypeid=cc.CompTypeid '
         + ' WHERE st.stuId=?  AND (c.compStateID=2 OR c.compStateID=3) AND tc.IsPass=1'
+        + ' AND st.IsPass = 1'
       let params = [stuId]
       mysql.query(sql, params, function (err, rows) {
         err && reject(rows)
@@ -206,6 +209,7 @@ class getInterface {
         + ' INNER JOIN compcode cc '
         + ' ON c.CompTypeid=cc.CompTypeid '
         + ' WHERE st.stuId=?  AND (c.compStateID=4 OR c.compStateID=5) AND tc.IsPass=1'
+        + ' AND st.IsPass = 1'
       let params = [stuId]
       mysql.query(sql, params, function (err, rows) {
         err && reject(rows)

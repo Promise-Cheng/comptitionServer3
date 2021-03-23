@@ -460,7 +460,6 @@ router.get('/myComp', checkAuth, function (req, res, next) {
     'start': (page - 1) * size,
     'end': size
   }
-  //console.log('status: '+req.query.status)
   if (req.query.status === undefined) {
     res.status(500).send({
       'result': 'error'
