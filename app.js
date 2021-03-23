@@ -10,6 +10,7 @@ var testRouter = require('./routes/test');
 var teamsRouter = require('./routes/teams');
 var CompetitionsRouter = require('./routes/Competitions');
 var teacherRouter = require('./routes/teacher');
+var otherNeed = require('./otherNeed/index');
 var filesRouter = require('./routes/common/files');
 var app = express();
 app.all('*', function (req, res, next) {
@@ -41,6 +42,8 @@ app.use('/teams', teamsRouter);
 app.use('/Competitions', CompetitionsRouter);
 app.use('/files', filesRouter);
 app.use('/teacher', teacherRouter);
+app.use('/otherNeed', otherNeed);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
