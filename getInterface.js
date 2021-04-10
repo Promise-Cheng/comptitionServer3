@@ -811,6 +811,15 @@ class getInterface {
       })
     })
   }
+  getQuestionByID(workId) {
+    return new Promise((resolve, reject) => {
+      let sql = `SELECT * FROM works WHERE workId= ${workId}`
+      mysql.query(sql, null, function (err, rows) {
+        err && reject(err)
+        resolve(rows)
+      })
+    })
+  }
 }
 
 module.exports = getInterface

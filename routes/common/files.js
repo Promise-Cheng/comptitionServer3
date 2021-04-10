@@ -30,11 +30,9 @@ function downloadFile(req, res, options) {
     }
   });
 }
-
+//作品上传下载
 router.post("/uploadWorks", checkAuth, (req, res, next) => {
-  console.log(11111)
   uploadFile(req, async (err, fields, files) => {
-    console.log(files)
     try {
       if (err) {
         next(err)
@@ -97,6 +95,78 @@ router.get('/download', async (req, res, next) => {
   downloadFile(req, res, options)
 });
 
+//题目上传下载
+router.post("/question/uploadWorks",  (req, res, next) => {
+  uploadFile(req, async (err, fields, files) => {
+    try {
+      if (err) {
+        next(err)
+        return
+      }
+      console.log(fields)
+      console.log(!fields.CompId)
+      console.log(!fields.questionAnsw)
+      console.log(!fields.questionIntro)
+      console.log(!fields.questionName)
+      console.log((!fields.CompId) || (!fields.questionAnsw) || !fields.questionIntro || !fields.questionName)
+      //必填参数
+      if (!fields.CompId || !fields.questionAnsw || !fields.questionIntro || !fields.questionName) {
+        next(400)
+        return
+      }
+      let item = files['file']
+      let fileDescArray = []
+      let fileNameArray = []
+      await new Promise((resolve, reject) => {
+        let newPath = item.path + item.name
+        fs.rename(item.path, newPath, (err) => {
+          let index = newPath.lastIndexOf('\\')
+          if (index !== -1) {
+            newPath = newPath.substring(index + 1, newPath.length)
+          }
+          fileDescArray.push(newPath);
+          fileNameArray.push(item.name)
+          err && reject(err)
+          resolve();
+        })
+      })
+      // let submitId = req.session.stuId;
+      let fileDesc = fileDescArray.join(';');
+      let fileName = fileNameArray.join(';');
+      let CompId = fields.CompId;
+      let questionAnsw = fields.questionAnsw || '';
+      let questionIntro = fields.questionIntro || '';
+      let questionName = fields.questionName || '';
+      let data = {fileDesc, fileName, CompId, questionAnsw, questionIntro, questionName}
+      let rows = await ins.question(data);
+      console.log('1111',rows)
+      res.status(200).send({
+        status: 'success',
+        data: rows
+      })
+    } catch (err) {
+      console.log(err)
+      res.status(500).send();
+    }
+  })
+})
+
+router.get('/question/download', async (req, res, next) => {
+  if(!req.query.CompId){
+    next(400)
+    return
+  }
+  const rows = await get.getWorksByID(req.query.CompId);
+  if (rows.length === 0) {
+    next(404)
+    return
+  }
+  let options = {
+    path: rows[0].filePath,
+    filename: rows[0].fileName
+  }
+  downloadFile(req, res, options)
+});
 router.use((err, req, res, next) => {
   if (typeof err === 'number') {
     err = errorStatus[err]

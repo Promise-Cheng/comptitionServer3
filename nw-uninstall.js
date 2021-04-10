@@ -3,8 +3,8 @@ let path = require('path');
 let Service = require('node-windows').Service;
  
 let svc = new Service({
-    name:'node windows server test', //名称
-    description: 'The socket.io nodejs server test ',//描述
+  name:'a node windows server test', //名称
+  description: 'The socket.io nodejs server test ',//描述
     script:  path.resolve('./bin/www'),//node执行入口
     nodeOptions: [
       '--harmony',
