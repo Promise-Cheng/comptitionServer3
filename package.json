@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node-dev ./bin/www"
+    "start": "node-dev ./bin/www",
+    "i": "npm install --registry=https://registry.npm.taobao.org"
   },
   "dependencies": {
     "async": "^3.1.0",

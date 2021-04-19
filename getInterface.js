@@ -34,7 +34,6 @@ class getInterface {
         resolve(rows[0].userSum)
       })
     })
-
   }
 
   /*获取队伍总数 */
@@ -811,9 +810,18 @@ class getInterface {
       })
     })
   }
-  getQuestionByID(workId) {
+  getQuestionSumByID(CompID) {
     return new Promise((resolve, reject) => {
-      let sql = `SELECT * FROM works WHERE workId= ${workId}`
+      let sql = `SELECT count(*) as sum FROM question WHERE CompID= ${CompID}`
+      mysql.query(sql, null, function (err, rows) {
+        err && reject(err)
+        resolve(rows[0].sum)
+      })
+    })
+  }
+  getQuestionByID(questionId) {
+    return new Promise((resolve, reject) => {
+      let sql = `SELECT * FROM question WHERE questionId= ${questionId}`
       mysql.query(sql, null, function (err, rows) {
         err && reject(err)
         resolve(rows)

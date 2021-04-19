@@ -98,23 +98,23 @@ router.get('/download', async (req, res, next) => {
 //题目上传下载
 router.post("/question/uploadWorks",  (req, res, next) => {
   uploadFile(req, async (err, fields, files) => {
+    console.log(fields)
     try {
       if (err) {
         next(err)
         return
       }
-      console.log(fields)
-      console.log(!fields.CompId)
-      console.log(!fields.questionAnsw)
-      console.log(!fields.questionIntro)
-      console.log(!fields.questionName)
-      console.log((!fields.CompId) || (!fields.questionAnsw) || !fields.questionIntro || !fields.questionName)
       //必填参数
       if (!fields.CompId || !fields.questionAnsw || !fields.questionIntro || !fields.questionName) {
         next(400)
         return
       }
-      let item = files['file']
+      let item = files['file'] || files.files || ''
+      console.log(fields.files)
+      if(!item) {
+        next(400)
+        return
+      }
       let fileDescArray = []
       let fileNameArray = []
       await new Promise((resolve, reject) => {
@@ -137,9 +137,9 @@ router.post("/question/uploadWorks",  (req, res, next) => {
       let questionAnsw = fields.questionAnsw || '';
       let questionIntro = fields.questionIntro || '';
       let questionName = fields.questionName || '';
-      let data = {fileDesc, fileName, CompId, questionAnsw, questionIntro, questionName}
+      let questionNum = await get.getQuestionSumByID(CompId)
+      let data = {fileDesc, fileName, CompId, questionAnsw, questionIntro, questionName, questionNum}
       let rows = await ins.question(data);
-      console.log('1111',rows)
       res.status(200).send({
         status: 'success',
         data: rows
@@ -152,17 +152,17 @@ router.post("/question/uploadWorks",  (req, res, next) => {
 })
 
 router.get('/question/download', async (req, res, next) => {
-  if(!req.query.CompId){
+  if(!req.query.questionId){
     next(400)
     return
   }
-  const rows = await get.getWorksByID(req.query.CompId);
+  const rows = await get.getQuestionByID(req.query.questionId);
   if (rows.length === 0) {
     next(404)
     return
   }
   let options = {
-    path: rows[0].filePath,
+    path: rows[0].fileDesc,
     filename: rows[0].fileName
   }
   downloadFile(req, res, options)
