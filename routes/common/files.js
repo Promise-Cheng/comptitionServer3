@@ -33,6 +33,7 @@ function downloadFile(req, res, options) {
 //作品上传下载
 router.post("/uploadWorks", checkAuth, (req, res, next) => {
   uploadFile(req, async (err, fields, files) => {
+    console.log(files)
     try {
       if (err) {
         next(err)
@@ -41,7 +42,7 @@ router.post("/uploadWorks", checkAuth, (req, res, next) => {
       if (!fields.teamCompId || !fields.workName || !fields.question) {
         next(400)
       }
-      let item = files['file']
+      let item = files.files
       let fileDescArray = []
       let fileNameArray = []
       await new Promise((resolve, reject) => {
@@ -98,7 +99,7 @@ router.get('/download', async (req, res, next) => {
 //题目上传下载
 router.post("/question/uploadWorks",  (req, res, next) => {
   uploadFile(req, async (err, fields, files) => {
-    console.log(fields)
+    console.log(files)
     try {
       if (err) {
         next(err)
@@ -152,18 +153,13 @@ router.post("/question/uploadWorks",  (req, res, next) => {
 })
 
 router.get('/question/download', async (req, res, next) => {
-  if(!req.query.questionId){
+  if(!req.query.path){
     next(400)
     return
   }
-  const rows = await get.getQuestionByID(req.query.questionId);
-  if (rows.length === 0) {
-    next(404)
-    return
-  }
   let options = {
-    path: rows[0].fileDesc,
-    filename: rows[0].fileName
+    path: req.query.path,
+    filename: req.query.fileName || ''
   }
   downloadFile(req, res, options)
 });

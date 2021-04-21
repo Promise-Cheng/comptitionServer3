@@ -82,7 +82,6 @@ router.post('/logout', checkAuth, function (req, res, fields) {
 //注册
 router.post('/register', function (req, res, next) {
   var sql_str = {}
-  console.log(req.body)
   var stuNum = req.body.stuNum;
   if (stuNum) {
     sql_str['stuNum'] = stuNum
